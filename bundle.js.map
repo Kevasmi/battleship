@@ -1,1 +1,1 @@
-{"version":3,"file":"bundle.js","mappings":";;;;;AAAAA,OAAO,CAACC,GAAR,CAAY,KAAZ,E","sources":["webpack://battleship/./src/index.js"],"sourcesContent":["console.log('123')"],"names":["console","log"],"sourceRoot":""}
+{"version":3,"file":"bundle.js","mappings":";;;;;AAAAA,OAAO,CAACC,GAAR,CAAY,KAAZ,E","sources":["webpack://battleship/./src/index.js"],"sourcesContent":["console.log('123');\r\n"],"names":["console","log"],"sourceRoot":""}
