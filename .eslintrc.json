@@ -1,8 +1,17 @@
 {
   "extends": ["airbnb", "prettier", "plugin:node/recommended"],
   "plugins": ["prettier"],
+  "parserOptions": {
+    "sourceType": "module"
+  },
   "rules": {
-    "prettier/prettier": "error",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto",
+        "singleQuote": "true"
+      }
+    ],
     "no-unused-vars": "warn",
     "no-console": "off",
     "func-names": "off",
