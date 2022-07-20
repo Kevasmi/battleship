@@ -1,35 +1,76 @@
 import { createShip } from './shipFactory.js';
 
-test('should return ship object', () => {
-  const expected = {
-    shipLength: 4,
-    shipSunk: false,
-  };
+let testShip = createShip(4);
 
-  expect(createShip(4)).toMatchObject(expected);
+describe('createShip function', () => {
+  test('should return ship object', () => {
+    const expected = {
+      shipLength: 4,
+      shipSunk: false,
+    };
+
+    expect(createShip(4)).toMatchObject(expected);
+  });
 });
 
-test('isSunk function runs when whereHit length is equal to shipLength', () => {
-  const expectedShip = {
-    shipLength: 4,
-    shipSunk: true,
-    whereHit: [
+describe('hit function', () => {
+  test('should add coordinate to whereHit array', () => {
+    const expectedArray = [[1, 1]];
+
+    testShip.hit([1, 1]);
+
+    expect(testShip.whereHit).toStrictEqual(expectedArray);
+  });
+
+  test.skip('should throw error if cooridnate is not an array', () => {
+    expect(() => {
+      testShip.hit('hello');
+    }).toThrowError('Coordinate is not valid!');
+  });
+});
+
+describe('isSunk function', () => {
+  test('does not run when whereHit length is != to shipLength', () => {
+    const expectedShip = {
+      shipLength: 4,
+      shipSunk: false,
+      whereHit: [
+        [1, 1],
+        [1, 2],
+        [1, 3],
+      ],
+    };
+
+    testShip.whereHit = [
+      [1, 1],
+      [1, 2],
+    ];
+
+    testShip.hit([1, 3]);
+
+    expect(testShip).toMatchObject(expectedShip);
+  });
+
+  test('runs when whereHit length is equal to shipLength', () => {
+    const expectedShip = {
+      shipLength: 4,
+      shipSunk: true,
+      whereHit: [
+        [1, 1],
+        [1, 2],
+        [1, 3],
+        [1, 4],
+      ],
+    };
+
+    testShip.whereHit = [
       [1, 1],
       [1, 2],
       [1, 3],
-      [1, 4],
-    ],
-  };
+    ];
 
-  let testShip = createShip(4);
+    testShip.hit([1, 4]);
 
-  testShip.whereHit = [
-    [1, 1],
-    [1, 2],
-    [1, 3],
-  ];
-
-  testShip.hit([1, 4]);
-
-  expect(testShip).toMatchObject(expectedShip);
+    expect(testShip).toMatchObject(expectedShip);
+  });
 });

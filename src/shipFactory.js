@@ -6,13 +6,23 @@ const createShip = (length, array) => {
 
     whereHit: [],
     hit(coordinate) {
-      this.whereHit.push(coordinate);
-      if (this.whereHit.length == this.shipLength) {
-        this.isSunk();
+      try {
+        if (Array.isArray(coordinate)) {
+          this.whereHit.push(coordinate);
+          if (this.whereHit.length == this.shipLength) {
+            this.isSunk();
+          }
+        } else {
+          throw Error('Coordinate is not valid!');
+        }
+      } catch (e) {
+        console.error(e);
       }
     },
     isSunk() {
-      this.shipSunk = true;
+      if (this.whereHit.length == this.shipLength) {
+        this.shipSunk = true;
+      }
     },
   };
 };
