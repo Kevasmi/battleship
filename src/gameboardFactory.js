@@ -13,21 +13,32 @@ const createGameboard = () => {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     ],
     missedAttacks: [],
+    shipsOnBoard: [],
     numOfShips: 5,
     allShipsSunk: false,
-    placeShip(coordinates, shipLength) {
-      for (let i = 0; i < shipLength; i++) {
-        const row = coordinates[i][0] - 1;
+    placeShip(coordinates, ship) {
+      for (let i = 0; i < ship.shipLength; i++) {
+        const row = coordinates[i][0];
         const column = coordinates[i][1] - 1;
         if (this.board[row][column] == 1) {
           throw new Error('Invalid coordinates!');
-          console.log(this.board);
         } else {
           this.board[row][column] = 1;
         }
       }
+      this.shipsOnBoard.push(ship.shipName);
+      // console.log(this.shipsOnBoard + '2');
     },
-    receiveAttack(coordiante) {},
+    receiveAttack(coordinate, ship) {
+      const row = coordinate[0];
+      const column = coordinate[1] - 1;
+      if (this.board[row][column] == 1) {
+        this.board[row][column] = 2;
+        ship.hit(coordinate);
+      } else {
+        this.missedAttacks.push(coordinate);
+      }
+    },
     areAllShipsSunk() {
       this.allShipsSunk = true;
     },
