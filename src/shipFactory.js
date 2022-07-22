@@ -2,21 +2,15 @@ const createShip = (length, array) => {
   return {
     shipLength: length,
     shipSunk: false,
-    // shipPosition: array,
-
     whereHit: [],
     hit(coordinate) {
-      try {
-        if (Array.isArray(coordinate)) {
-          this.whereHit.push(coordinate);
-          if (this.whereHit.length == this.shipLength) {
-            this.isSunk();
-          }
-        } else {
-          throw Error('Coordinate is not valid!');
+      if (Array.isArray(coordinate)) {
+        this.whereHit.push(coordinate);
+        if (this.whereHit.length == this.shipLength) {
+          this.isSunk();
         }
-      } catch (e) {
-        console.error(e);
+      } else {
+        throw new Error('Coordinate is not valid!');
       }
     },
     isSunk() {

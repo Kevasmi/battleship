@@ -22,7 +22,7 @@ describe('hit function', () => {
     expect(testShip.whereHit).toStrictEqual(expectedArray);
   });
 
-  test.skip('should throw error if cooridnate is not an array', () => {
+  test('should throw error if cooridnate is not an array', () => {
     expect(() => {
       testShip.hit('hello');
     }).toThrowError('Coordinate is not valid!');
