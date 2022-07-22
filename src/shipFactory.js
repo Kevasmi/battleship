@@ -1,5 +1,6 @@
-const createShip = (length, array) => {
+const createShip = (length, name) => {
   return {
+    shipName: name,
     shipLength: length,
     shipSunk: false,
     whereHit: [],

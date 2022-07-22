@@ -1,15 +1,17 @@
 import { createShip } from './shipFactory.js';
 
-let testShip = createShip(4);
+let testShip = createShip(4, 'battleship');
 
 describe('createShip function', () => {
   test('should return ship object', () => {
     const expected = {
+      shipName: 'battleship',
       shipLength: 4,
       shipSunk: false,
+      whereHit: [],
     };
 
-    expect(createShip(4)).toMatchObject(expected);
+    expect(createShip(4, 'battleship')).toMatchObject(expected);
   });
 });
 
