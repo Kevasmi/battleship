@@ -16,7 +16,7 @@ const createGameboard = () => {
     shipsOnBoard: [],
     numOfShips: 5,
     allShipsSunk: false,
-    placeShip(coordinates, ship) {
+    placeShip(coordinates, ship, isHorizontal) {
       for (let i = 0; i < ship.shipLength; i++) {
         const row = coordinates[i][0];
         const column = coordinates[i][1] - 1;
@@ -26,8 +26,7 @@ const createGameboard = () => {
           this.board[row][column] = 1;
         }
       }
-      this.shipsOnBoard.push(ship.shipName);
-      // console.log(this.shipsOnBoard + '2');
+      this.shipsOnBoard.push(ship);
     },
     receiveAttack(coordinate, ship) {
       const row = coordinate[0];

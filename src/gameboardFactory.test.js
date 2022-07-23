@@ -31,7 +31,7 @@ describe('createGameboard function', () => {
 
 describe('placeShip function', () => {
   test('should populate shipsOnBoard array on success with ship object', () => {
-    const expectedArray = ['battleship'];
+    const expectedShip = createShip(4, 'battleship');
 
     const coordinates = [
       [0, 1],
@@ -40,9 +40,9 @@ describe('placeShip function', () => {
       [0, 4],
     ];
 
-    testBoard.placeShip(coordinates, testShip);
+    testBoard.placeShip(coordinates, expectedShip);
 
-    expect(testBoard.shipsOnBoard).toStrictEqual(expectedArray);
+    expect(testBoard.shipsOnBoard).toContainEqual(expectedShip);
   });
 
   describe('should place ship on board array', () => {
@@ -152,6 +152,13 @@ describe('placeShip function', () => {
   });
 
   test('should sucessfully run 5 times in a row with correct output', () => {
+    let carrier = createShip(5, 'carrier');
+    let battleship = createShip(4, 'battleship');
+    let destroyer = createShip(3, 'destroyer');
+    let submarine = createShip(3, 'submarine');
+    let patrolBoat = createShip(2, 'patrol Boat');
+    let arrayOfShips = [carrier, battleship, destroyer, submarine, patrolBoat];
+
     const expectedBoard = {
       board: [
         [1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
@@ -166,32 +173,12 @@ describe('placeShip function', () => {
         [1, 0, 0, 0, 0, 0, 0, 1, 1, 1],
       ],
       missedAttacks: [],
-      shipsOnBoard: [
-        'carrier',
-        'battleship',
-        'destroyer',
-        'submarine',
-        'patrol boat',
-      ],
+      shipsOnBoard: [carrier, battleship, destroyer, submarine, patrolBoat],
       numOfShips: 5,
       allShipsSunk: false,
     };
 
     let testBoard = createGameboard();
-
-    const testData = [
-      [5, 'carrier'],
-      [4, 'battleship'],
-      [3, 'destroyer'],
-      [3, 'submarine'],
-      [2, 'patrol boat'],
-    ];
-    const shipObjects = [];
-
-    testData.forEach((data) => {
-      const ship = createShip(data[0], data[1]);
-      shipObjects.push(ship);
-    });
 
     const coordinates = [
       [
@@ -224,7 +211,7 @@ describe('placeShip function', () => {
     ];
 
     for (let i = 0; i < 5; i++) {
-      testBoard.placeShip(coordinates[i], shipObjects[i]);
+      testBoard.placeShip(coordinates[i], arrayOfShips[i]);
     }
 
     expect(testBoard).toMatchObject(expectedBoard);
