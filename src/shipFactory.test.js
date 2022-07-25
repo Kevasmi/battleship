@@ -8,10 +8,28 @@ describe('createShip function', () => {
       shipName: 'battleship',
       shipLength: 4,
       shipSunk: false,
+      location: [],
       whereHit: [],
+      hit(coordinate) {
+        if (Array.isArray(coordinate)) {
+          this.whereHit.push(coordinate);
+          if (this.whereHit.length == this.shipLength) {
+            this.isSunk();
+          }
+        } else {
+          throw new Error('Coordinate is not valid!');
+        }
+      },
+      isSunk() {
+        if (this.whereHit.length == this.shipLength) {
+          this.shipSunk = true;
+        }
+      },
     };
 
-    expect(createShip(4, 'battleship')).toMatchObject(expected);
+    expect(JSON.stringify(createShip(4, 'battleship'))).toStrictEqual(
+      JSON.stringify(expected)
+    );
   });
 });
 
@@ -34,13 +52,30 @@ describe('hit function', () => {
 describe('isSunk function', () => {
   test('does not run when whereHit length is != to shipLength', () => {
     const expectedShip = {
+      shipName: 'battleship',
       shipLength: 4,
       shipSunk: false,
+      location: [],
       whereHit: [
         [1, 1],
         [1, 2],
         [1, 3],
       ],
+      hit(coordinate) {
+        if (Array.isArray(coordinate)) {
+          this.whereHit.push(coordinate);
+          if (this.whereHit.length == this.shipLength) {
+            this.isSunk();
+          }
+        } else {
+          throw new Error('Coordinate is not valid!');
+        }
+      },
+      isSunk() {
+        if (this.whereHit.length == this.shipLength) {
+          this.shipSunk = true;
+        }
+      },
     };
 
     testShip.whereHit = [
@@ -50,19 +85,38 @@ describe('isSunk function', () => {
 
     testShip.hit([1, 3]);
 
-    expect(testShip).toMatchObject(expectedShip);
+    expect(JSON.stringify(testShip)).toStrictEqual(
+      JSON.stringify(expectedShip)
+    );
   });
 
   test('runs when whereHit length is equal to shipLength', () => {
     const expectedShip = {
+      shipName: 'battleship',
       shipLength: 4,
       shipSunk: true,
+      location: [],
       whereHit: [
         [1, 1],
         [1, 2],
         [1, 3],
         [1, 4],
       ],
+      hit(coordinate) {
+        if (Array.isArray(coordinate)) {
+          this.whereHit.push(coordinate);
+          if (this.whereHit.length == this.shipLength) {
+            this.isSunk();
+          }
+        } else {
+          throw new Error('Coordinate is not valid!');
+        }
+      },
+      isSunk() {
+        if (this.whereHit.length == this.shipLength) {
+          this.shipSunk = true;
+        }
+      },
     };
 
     testShip.whereHit = [
@@ -73,6 +127,8 @@ describe('isSunk function', () => {
 
     testShip.hit([1, 4]);
 
-    expect(testShip).toMatchObject(expectedShip);
+    expect(JSON.stringify(testShip)).toStrictEqual(
+      JSON.stringify(expectedShip)
+    );
   });
 });

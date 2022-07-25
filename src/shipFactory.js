@@ -3,6 +3,7 @@ const createShip = (length, name) => {
     shipName: name,
     shipLength: length,
     shipSunk: false,
+    location: [],
     whereHit: [],
     hit(coordinate) {
       if (Array.isArray(coordinate)) {
