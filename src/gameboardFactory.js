@@ -1,3 +1,8 @@
+function convertCoordinate(coordinate) {
+  const num = parseInt('' + coordinate[0] + coordinate[1]);
+  return num;
+}
+
 const createGameboard = () => {
   return {
     board: [
@@ -20,11 +25,27 @@ const createGameboard = () => {
       for (let i = 0; i < ship.shipLength; i++) {
         const row = coordinates[i][0];
         const column = coordinates[i][1] - 1;
-        if (this.board[row][column] == 1) {
-          throw new Error('Invalid coordinates!');
+        const nodeIndex = convertCoordinate(coordinates[0]);
+        // Checks if a ship is already placed on location and what orientation it's on
+        if (this.board[row][column] == 0 && isHorizontal === true) {
+          // Checks if a ship will be placed out of bounds of grid
+          if (ship.shipLength + (column + 1) <= (row + 1) * 10) {
+            ship.location = coordinates;
+            this.board[row][column] = 1;
+          } else {
+            throw new Error('Outside of grid!(H)');
+          }
+          // Checks if a ship is already placed on location and what orientation it's on
+        } else if (this.board[row][column] == 0 && isHorizontal === false) {
+          // Checks if a ship will be placed out of bounds of grid
+          if ((ship.shipLength - 1) * 10 + nodeIndex <= 100) {
+            ship.location = coordinates;
+            this.board[row][column] = 1;
+          } else {
+            throw new Error('Outside of grid!(V)');
+          }
         } else {
-          ship.location = coordinates;
-          this.board[row][column] = 1;
+          throw new Error('Invalid coordinates!');
         }
       }
       this.shipsOnBoard.push(ship);
@@ -40,6 +61,7 @@ const createGameboard = () => {
         this.board[row][column] = 3;
         this.missedAttacks.push(coordinate);
       }
+      this.areAllShipsSunk();
     },
     findShip(coordinate) {
       const row = coordinate[0];
@@ -59,7 +81,13 @@ const createGameboard = () => {
       return returnedShip;
     },
     areAllShipsSunk() {
-      this.allShipsSunk = true;
+      this.shipsOnBoard.forEach((ship) => {
+        if (ship.shipSunk === false) {
+          return;
+        } else {
+          this.allShipsSunk = true;
+        }
+      });
     },
   };
 };
