@@ -27,11 +27,37 @@ describe('createGameboard function', () => {
         for (let i = 0; i < ship.shipLength; i++) {
           const row = coordinates[i][0];
           const column = coordinates[i][1] - 1;
-          if (this.board[row][column] == 1) {
-            throw new Error('Invalid coordinates!');
+          const nodeIndex = convertCoordinate(coordinates[0]);
+          console.log(isHorizontal);
+          console.log(i);
+          // Checks if a ship is already placed on location and what orientation it's on
+          if (this.board[row][column] == 0 && isHorizontal === true) {
+            // Checks if a ship will be placed out of bounds of grid
+            if (ship.shipLength + (column + 1) < (row + 1) * 10) {
+              console.log(i + 'H');
+
+              ship.location = coordinates;
+              this.board[row][column] = 1;
+            } else {
+              console.log(i + 'H');
+
+              throw new Error('Outside of grid!(H) ' + i);
+            }
+            // Checks if a ship is already placed on location and what orientation it's on
+          } else if (this.board[row][column] == 0 && isHorizontal === false) {
+            // Checks if a ship will be placed out of bounds of grid
+            if ((ship.shipLength - 1) * 10 + nodeIndex < 100) {
+              console.log(i + 'V');
+
+              ship.location = coordinates;
+              this.board[row][column] = 1;
+            } else {
+              console.log(i + 'V');
+
+              throw new Error('Outside of grid!(V) ' + i);
+            }
           } else {
-            ship.location = coordinates;
-            this.board[row][column] = 1;
+            throw new Error('Invalid coordinates!');
           }
         }
         this.shipsOnBoard.push(ship);
@@ -79,7 +105,7 @@ describe('placeShip function', () => {
         [0, 4],
       ];
 
-      testBoard.placeShip(coordinates, expectedShip);
+      testBoard.placeShip(coordinates, expectedShip, true);
 
       expect(testBoard.shipsOnBoard).toContainEqual(expectedShip);
     });
@@ -93,93 +119,140 @@ describe('placeShip function', () => {
         [0, 4],
       ];
 
-      testBoard.placeShip(coordinates, testShip);
+      testBoard.placeShip(coordinates, testShip, true);
 
       expect(testShip.location).toStrictEqual(coordinates);
     });
   });
 
   describe('should place ship on board array', () => {
-    test('horizontally', () => {
-      const expectedBoard = [
-        [1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      ];
+    describe('horizontally', () => {
+      test('successfully', () => {
+        const expectedBoard = [
+          [1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ];
+        const coordinates = [
+          [0, 1],
+          [0, 2],
+          [0, 3],
+          [0, 4],
+        ];
 
-      testBoard.board = [
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      ];
+        testBoard.board = [
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ];
 
-      const coordinates = [
-        [0, 1],
-        [0, 2],
-        [0, 3],
-        [0, 4],
-      ];
+        testBoard.placeShip(coordinates, testShip, true);
 
-      testBoard.placeShip(coordinates, testShip);
+        expect(testBoard.board).toStrictEqual(expectedBoard);
+      });
 
-      expect(testBoard.board).toStrictEqual(expectedBoard);
+      test('unsucessfully', () => {
+        const coordinates = [
+          [0, 9],
+          [0, 10],
+          [0, 11],
+        ];
+        let errorShip = createShip(3, 'submarine');
+
+        testBoard.board = [
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ];
+
+        expect(() => {
+          testBoard.placeShip(coordinates, errorShip, true);
+        }).toThrowError('Outside of grid!(H)');
+      });
     });
+    describe('vertically', () => {
+      test('successfully', () => {
+        const expectedBoard = [
+          [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ];
+        const coordinates = [
+          [0, 1],
+          [1, 1],
+          [2, 1],
+          [3, 1],
+        ];
 
-    test('vertically', () => {
-      const expectedBoard = [
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      ];
+        testBoard.board = [
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ];
 
-      const coordinates = [
-        [0, 1],
-        [1, 1],
-        [2, 1],
-        [3, 1],
-      ];
+        testBoard.placeShip(coordinates, testShip, false);
 
-      testBoard.board = [
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      ];
+        expect(testBoard.board).toStrictEqual(expectedBoard);
+      });
 
-      testBoard.placeShip(coordinates, testShip);
+      test('unsucessfully', () => {
+        const coordinates = [
+          [9, 1],
+          [10, 1],
+          [11, 1],
+        ];
+        let errorShip = createShip(3, 'submarine');
 
-      expect(testBoard.board).toStrictEqual(expectedBoard);
+        expect(() => {
+          testBoard.placeShip(coordinates, errorShip, false);
+        }).toThrowError('Outside of grid!(V)');
+      });
     });
   });
 
   test('should not place a ship on board positions already filled with ships', () => {
+    const coordinates = [
+      [0, 4],
+      [0, 5],
+      [0, 6],
+      [0, 7],
+    ];
+
     testBoard.board = [
       [1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -193,26 +266,18 @@ describe('placeShip function', () => {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     ];
 
-    const coordinates = [
-      [0, 4],
-      [0, 5],
-      [0, 6],
-      [0, 7],
-    ];
-
     expect(() => {
-      testBoard.placeShip(coordinates, testShip);
+      testBoard.placeShip(coordinates, testShip, true);
     }).toThrowError('Invalid coordinates!');
   });
 
-  test('should sucessfully run 5 times in a row with correct output', () => {
+  test.only('should sucessfully run 5 times in a row with correct output', () => {
     let carrier = createShip(5, 'carrier');
     let battleship = createShip(4, 'battleship');
     let destroyer = createShip(3, 'destroyer');
     let submarine = createShip(3, 'submarine');
     let patrolBoat = createShip(2, 'patrol Boat');
     let arrayOfShips = [carrier, battleship, destroyer, submarine, patrolBoat];
-
     const expectedBoard = {
       board: [
         [1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
@@ -234,11 +299,37 @@ describe('placeShip function', () => {
         for (let i = 0; i < ship.shipLength; i++) {
           const row = coordinates[i][0];
           const column = coordinates[i][1] - 1;
-          if (this.board[row][column] == 1) {
-            throw new Error('Invalid coordinates!');
+          const nodeIndex = convertCoordinate(coordinates[0]);
+          console.log(isHorizontal);
+          console.log(i);
+          // Checks if a ship is already placed on location and what orientation it's on
+          if (this.board[row][column] == 0 && isHorizontal === true) {
+            // Checks if a ship will be placed out of bounds of grid
+            if (ship.shipLength + (column + 1) < (row + 1) * 10) {
+              console.log(i + 'H');
+
+              ship.location = coordinates;
+              this.board[row][column] = 1;
+            } else {
+              console.log(i + 'H');
+
+              throw new Error('Outside of grid!(H) ' + i);
+            }
+            // Checks if a ship is already placed on location and what orientation it's on
+          } else if (this.board[row][column] == 0 && isHorizontal === false) {
+            // Checks if a ship will be placed out of bounds of grid
+            if ((ship.shipLength - 1) * 10 + nodeIndex < 100) {
+              console.log(i + 'V');
+
+              ship.location = coordinates;
+              this.board[row][column] = 1;
+            } else {
+              console.log(i + 'V');
+
+              throw new Error('Outside of grid!(V) ' + i);
+            }
           } else {
-            ship.location = coordinates;
-            this.board[row][column] = 1;
+            throw new Error('Invalid coordinates!');
           }
         }
         this.shipsOnBoard.push(ship);
@@ -270,7 +361,6 @@ describe('placeShip function', () => {
     };
 
     let testBoard = createGameboard();
-
     const coordinates = [
       [
         [0, 1],
@@ -300,9 +390,10 @@ describe('placeShip function', () => {
         [9, 1],
       ],
     ];
+    const orientationArray = [true, false, true, true, false];
 
     for (let i = 0; i < 5; i++) {
-      testBoard.placeShip(coordinates[i], arrayOfShips[i]);
+      testBoard.placeShip(coordinates[i], arrayOfShips[i], orientationArray[i]);
     }
 
     expect(JSON.stringify(testBoard)).toStrictEqual(
@@ -443,5 +534,70 @@ describe('receiveAttack function', () => {
     testBoard.receiveAttack(coordinate, testShip);
 
     expect(testBoard.board).toStrictEqual(expectedBoard);
+  });
+});
+
+describe('findShip function', () => {
+  test('should return a matching ship object', () => {
+    let testBoard = createGameboard();
+    const expectedShip = createShip(4, 'battleship');
+    const coordinates = [
+      [0, 1],
+      [0, 2],
+      [0, 3],
+      [0, 4],
+    ];
+
+    testBoard.placeShip(coordinates, expectedShip, true);
+    testBoard.board = [
+      [1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ];
+
+    expect(JSON.stringify(testBoard.findShip(coordinates[0]))).toStrictEqual(
+      JSON.stringify(expectedShip)
+    );
+  });
+});
+
+describe('areAllShipsSunk function', () => {
+  test('should change boolean value on truthy value in conditional', () => {
+    let testBoard = createGameboard();
+    let testShip = createShip(4, 'battleship');
+    const coordinates = [
+      [0, 1],
+      [0, 2],
+      [0, 3],
+      [0, 4],
+    ];
+
+    testBoard.placeShip(coordinates, testShip, true);
+    testShip.shipSunk = true;
+    testBoard.areAllShipsSunk();
+    expect(testBoard.allShipsSunk).toBe(true);
+  });
+
+  test('should not change boolean value on falsey value in conditional', () => {
+    let testBoard = createGameboard();
+    let testShip = createShip(4, 'battleship');
+    const coordinates = [
+      [0, 1],
+      [0, 2],
+      [0, 3],
+      [0, 4],
+    ];
+
+    testBoard.placeShip(coordinates, testShip, true);
+    testShip.shipSunk = false;
+    testBoard.areAllShipsSunk();
+    expect(testBoard.allShipsSunk).toBe(false);
   });
 });
