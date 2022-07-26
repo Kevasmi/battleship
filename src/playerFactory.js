@@ -13,8 +13,9 @@ function createPlayer(name, isComputer) {
   return {
     name: name,
     board: createGameboard(),
+    isAComputer: isComputer,
     makeAttack(coordinate) {
-      if (isComputer === true) {
+      if (this.isAComputer === true) {
         this.computerAttack();
       } else {
         this.board.receiveAttack(coordinate);
