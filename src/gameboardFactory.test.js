@@ -271,7 +271,7 @@ describe('placeShip function', () => {
     }).toThrowError('Invalid coordinates!');
   });
 
-  test.only('should sucessfully run 5 times in a row with correct output', () => {
+  test('should sucessfully run 5 times in a row with correct output', () => {
     let carrier = createShip(5, 'carrier');
     let battleship = createShip(4, 'battleship');
     let destroyer = createShip(3, 'destroyer');
