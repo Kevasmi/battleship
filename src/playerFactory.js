@@ -2,35 +2,29 @@ import { createGameboard } from './gameboardFactory';
 
 function randomCoordinate() {
   const array = [];
-  for (let i = 0; i < 2; i++) {
-    const randomNum = Math.floor(Math.random() * 9);
-    randomCoordinate.push(randomNum);
-  }
+  const firstNum = Math.floor(Math.random * 9);
+  const secondNum = Math.floor(Math.random * 10);
+  array.push(firstNum, secondNum);
   return array;
 }
 
-function createPlayer(name, isComputer) {
-  return {
-    name: name,
-    board: createGameboard(),
-    isAComputer: isComputer,
-    makeAttack(coordinate) {
-      if (this.isAComputer === true) {
-        this.computerAttack();
-      } else {
-        this.board.receiveAttack(coordinate);
-      }
-    },
-    computerAttack() {
-      try {
-        let coordinate = randomCoordinate();
-        this.board.receiveAttack(coordinate);
-      } catch {
-        computerAttack();
-      }
-    },
-    nextRound() {},
-  };
-}
+const createPlayer = ({ name = 'Anonymous', isComputer = false } = {}) => ({
+  name: name,
+  gameBoard: createGameboard(),
+  isAComputer: isComputer,
+  playerAttack(coordinate, enemy) {
+    enemy.gameBoard.receiveAttack(coordinate);
+  },
+  computerAttack(enemy) {
+    try {
+      let coordinate = randomCoordinate();
+      enemy.board.receiveAttack(coordinate);
+    } catch (e) {
+      console.error(e);
+      this.computerAttack();
+    }
+  },
+  nextRound() {},
+});
 
 export { createPlayer };
