@@ -54,12 +54,14 @@ const createGameboard = () => {
       const row = coordinate[0];
       const column = coordinate[1] - 1;
       const ship = this.findShip(coordinate);
-      if (this.board[row][column] == 1) {
+      if (this.board[row][column] === 1) {
         this.board[row][column] = 2;
         ship.hit(coordinate);
-      } else {
+      } else if (this.board[row][column] === 0) {
         this.board[row][column] = 3;
         this.missedAttacks.push(coordinate);
+      } else {
+        throw new Error('Invalid coordinates!');
       }
       this.areAllShipsSunk();
     },
