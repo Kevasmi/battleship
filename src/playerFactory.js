@@ -1,11 +1,6 @@
 import { createGameboard } from './gameboardFactory';
 
 function randomCoordinate(array) {
-  // let array = [];
-  // const firstNum = Math.floor(Math.random() * 9);
-  // const secondNum = Math.floor(Math.random() * 10) + 1;
-  // array.push(firstNum, secondNum);
-  // return array;
   const index = parseInt(Math.floor(Math.random() * array.length));
   const coordinate = array[index];
   array.splice(index, 1);
