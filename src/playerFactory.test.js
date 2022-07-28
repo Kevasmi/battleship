@@ -1,30 +1,31 @@
 import { createGameboard } from './gameboardFactory';
 import { createPlayer } from './playerFactory';
 
+const mockMath = Object.create(global.Math);
+mockMath.random = () => 0.001;
+global.Math = mockMath;
+
 describe('createPlayer function', () => {
   test('should return player object', () => {
-    const gameBoard = createGameboard();
-
     const expectedPlayer = {
       name: 'Anonymous',
-      gameBoard: gameBoard,
       isAComputer: false,
+      gameBoard: createGameboard(),
+      dummyBoard: createGameboard().board,
       playerAttack(coordinate, enemy) {
-        enemy.board.receiveAttack(coordinate);
-        this.nextRound();
+        enemy.gameBoard.receiveAttack(coordinate);
+        enemy.computerAttack(this);
       },
       computerAttack(enemy) {
         try {
           let coordinate = randomCoordinate();
-          enemy.board.receiveAttack(coordinate);
-        } catch {
-          computerAttack();
+          enemy.gameBoard.receiveAttack(coordinate);
+        } catch (e) {
+          console.log(e);
+          this.computerAttack();
         }
       },
-      nextRound(enemy) {},
     };
-
-    // console.log(createPlayer({ isComputer: true }));
 
     expect(JSON.stringify(createPlayer())).toStrictEqual(
       JSON.stringify(expectedPlayer)
@@ -35,7 +36,19 @@ describe('createPlayer function', () => {
     test('should sucessfully update enemy board', () => {
       let player = createPlayer({ name: 'Richard' });
       let computer = createPlayer({ name: 'computer', isComputer: true });
-      const expectedBoard = [
+      const expectedComputerBoard = [
+        [3, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      ];
+      const expectedPlayerBoard = [
         [3, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -51,11 +64,12 @@ describe('createPlayer function', () => {
 
       player.playerAttack(coordinate, computer);
 
-      expect(computer.gameBoard.board).toStrictEqual(expectedBoard);
+      expect(computer.gameBoard.board).toStrictEqual(expectedComputerBoard);
+      expect(player.gameBoard.board).toStrictEqual(expectedPlayerBoard);
     });
   });
 
-  describe.skip('computerAttack function', () => {
+  describe('computerAttack function', () => {
     test('should sucessfully update enemy board', () => {
       let player = createPlayer({ name: 'Richard' });
       let computer = createPlayer({ name: 'computer', isComputer: true });
@@ -72,23 +86,9 @@ describe('createPlayer function', () => {
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       ];
 
-      player.gameBoard.board = [
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-      ];
-
       computer.computerAttack(player);
-      console.log();
 
-      expect(computer.gameBoard.board).toStrictEqual(expectedBoard);
+      expect(player.gameBoard.board).toStrictEqual(expectedBoard);
     });
   });
 });
