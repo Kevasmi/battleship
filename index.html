@@ -5,8 +5,38 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
     <script src="./bundle.js" defer></script>
     <title>Battleship</title>
   </head>
-  <body></body>
+  <body>
+    <header>
+      <h1 class="title">Battleship</h1>
+    </header>
+    <main>
+      <section class="game-buttons">
+        <button class="orientation pulseBox">Horizontal</button>
+      </section>
+      <section class="player-side"></section>
+      <section class="computer-side"></section>
+    </main>
+    <div class="modal-container show">
+      <div class="modal">
+        <div class="modal-header">
+          <div class="modal-title">Enter Your Name</div>
+        </div>
+        <div class="modal-body">
+          <form action="">
+            <input type="text" name="name" id="name" required />
+            <input type="submit" value="Enter" id="submit-btn" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
