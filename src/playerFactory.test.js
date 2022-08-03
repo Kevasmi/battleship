@@ -33,7 +33,6 @@ describe('createPlayer function', () => {
           let coordinate = randomCoordinate();
           enemy.gameBoard.receiveAttack(coordinate);
         } catch (e) {
-          console.log(e);
           this.computerAttack();
         }
       },

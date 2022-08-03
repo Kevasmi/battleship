@@ -28,32 +28,23 @@ describe('createGameboard function', () => {
           const row = coordinates[i][0];
           const column = coordinates[i][1] - 1;
           const nodeIndex = convertCoordinate(coordinates[0]);
-          console.log(isHorizontal);
-          console.log(i);
+
           // Checks if a ship is already placed on location and what orientation it's on
           if (this.board[row][column] == 0 && isHorizontal === true) {
             // Checks if a ship will be placed out of bounds of grid
             if (ship.shipLength + (column + 1) < (row + 1) * 10) {
-              console.log(i + 'H');
-
               ship.location = coordinates;
               this.board[row][column] = 1;
             } else {
-              console.log(i + 'H');
-
               throw new Error('Outside of grid!(H) ' + i);
             }
             // Checks if a ship is already placed on location and what orientation it's on
           } else if (this.board[row][column] == 0 && isHorizontal === false) {
             // Checks if a ship will be placed out of bounds of grid
             if ((ship.shipLength - 1) * 10 + nodeIndex < 100) {
-              console.log(i + 'V');
-
               ship.location = coordinates;
               this.board[row][column] = 1;
             } else {
-              console.log(i + 'V');
-
               throw new Error('Outside of grid!(V) ' + i);
             }
           } else {
@@ -300,32 +291,23 @@ describe('placeShip function', () => {
           const row = coordinates[i][0];
           const column = coordinates[i][1] - 1;
           const nodeIndex = convertCoordinate(coordinates[0]);
-          console.log(isHorizontal);
-          console.log(i);
+
           // Checks if a ship is already placed on location and what orientation it's on
           if (this.board[row][column] == 0 && isHorizontal === true) {
             // Checks if a ship will be placed out of bounds of grid
             if (ship.shipLength + (column + 1) < (row + 1) * 10) {
-              console.log(i + 'H');
-
               ship.location = coordinates;
               this.board[row][column] = 1;
             } else {
-              console.log(i + 'H');
-
               throw new Error('Outside of grid!(H) ' + i);
             }
             // Checks if a ship is already placed on location and what orientation it's on
           } else if (this.board[row][column] == 0 && isHorizontal === false) {
             // Checks if a ship will be placed out of bounds of grid
             if ((ship.shipLength - 1) * 10 + nodeIndex < 100) {
-              console.log(i + 'V');
-
               ship.location = coordinates;
               this.board[row][column] = 1;
             } else {
-              console.log(i + 'V');
-
               throw new Error('Outside of grid!(V) ' + i);
             }
           } else {
