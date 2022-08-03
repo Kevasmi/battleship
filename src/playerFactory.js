@@ -1,4 +1,6 @@
+import { cacheDOM } from './cacheDOM';
 import { createGameboard } from './gameboardFactory';
+import { renderVictory } from './renderDOM';
 
 function randomCoordinate(array) {
   const index = parseInt(Math.floor(Math.random() * array.length));
@@ -7,7 +9,7 @@ function randomCoordinate(array) {
   return coordinate;
 }
 
-const createPlayer = ({ name = 'Anonymous', isComputer = false } = {}) => ({
+const createPlayer = (name, isComputer) => ({
   name: name,
   isAComputer: isComputer,
   gameBoard: createGameboard(),
@@ -24,17 +26,28 @@ const createPlayer = ({ name = 'Anonymous', isComputer = false } = {}) => ({
   [8, 1], [8, 2], [8, 3], [8, 4], [8, 5], [8, 6], [8, 7], [8, 8], [8, 9], [8, 10],
   [9, 1], [9, 2], [9, 3], [9, 4], [9, 5], [9, 6], [9, 7], [9, 8], [9, 9], [9, 10],
 ],
-  playerAttack(coordinate, enemy) {
-    enemy.gameBoard.receiveAttack(coordinate);
+  playerAttack(coordinate, enemy, cGrid) {
+    enemy.gameBoard.receiveAttack(coordinate, cGrid, enemy.name);
+    this.checkForVictory(enemy);
     enemy.computerAttack(this);
   },
   computerAttack(enemy) {
     try {
+      const pGrid = cacheDOM().playerGrid;
       let coordinate = randomCoordinate(this.dummyBoard);
-      enemy.gameBoard.receiveAttack(coordinate);
+      let num = parseInt('' + coordinate[0] + coordinate[1]);
+      if (coordinate[1] == 10) {
+        num = Math.floor(num / 10) - 1;
+      }
+      enemy.gameBoard.receiveAttack(num, pGrid, enemy.name);
+      this.checkForVictory(enemy);
     } catch (e) {
-      console.error('e');
-      this.computerAttack();
+      console.error(e);
+    }
+  },
+  checkForVictory(enemy) {
+    if (enemy.gameBoard.allShipsSunk) {
+      renderVictory(this.name);
     }
   },
 });
