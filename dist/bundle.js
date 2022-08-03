@@ -397,7 +397,7 @@ computerPlayerOne.gameBoard.shipsOnBoard[4].location = [[8, 0], [9, 0]];
 computerPlayerArray.push(computerPlayerOne);
 var computerPlayerTwo = (0,_playerFactory__WEBPACK_IMPORTED_MODULE_0__.createPlayer)('Computer', true);
 computerPlayerTwo.gameBoard.board = [[0, 0, 0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 1, 1, 0], [0, 0, 0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 1, 0, 0], [0, 0, 1, 0, 1, 0, 0, 1, 0, 0], [0, 0, 1, 0, 0, 0, 0, 1, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 1, 1, 1, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
-computerPlayerTwo.gameBoard.shipsOnBoard = [(0,_shipFactory__WEBPACK_IMPORTED_MODULE_1__.createShip)('Carrier', 5), (0,_shipFactory__WEBPACK_IMPORTED_MODULE_1__.createShip)('Battleship', 4), (0,_shipFactory__WEBPACK_IMPORTED_MODULE_1__.createShip)('Destroyer', 3), (0,_shipFactory__WEBPACK_IMPORTED_MODULE_1__.createShip)('Submarine', 3), (0,_shipFactory__WEBPACK_IMPORTED_MODULE_1__.createShip)('Patrol Boat', 2)];
+computerPlayerTwo.gameBoard.shipsOnBoard = [(0,_shipFactory__WEBPACK_IMPORTED_MODULE_1__.createShip)(5, 'Carrier'), (0,_shipFactory__WEBPACK_IMPORTED_MODULE_1__.createShip)(4, 'Battleship'), (0,_shipFactory__WEBPACK_IMPORTED_MODULE_1__.createShip)(3, 'Destroyer'), (0,_shipFactory__WEBPACK_IMPORTED_MODULE_1__.createShip)(3, 'Submarine'), (0,_shipFactory__WEBPACK_IMPORTED_MODULE_1__.createShip)(2, 'Patrol Boat')];
 computerPlayerTwo.gameBoard.shipsOnBoard[0].location = [[0, 4], [1, 4], [2, 4], [3, 4], [4, 4]];
 computerPlayerTwo.gameBoard.shipsOnBoard[1].location = [[4, 2], [5, 2], [6, 2], [7, 2]];
 computerPlayerTwo.gameBoard.shipsOnBoard[2].location = [[3, 7], [4, 7], [5, 7]];

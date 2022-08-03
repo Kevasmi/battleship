@@ -76,11 +76,11 @@ computerPlayerTwo.gameBoard.board = [
 ];
 
 computerPlayerTwo.gameBoard.shipsOnBoard = [
-  createShip('Carrier', 5),
-  createShip('Battleship', 4),
-  createShip('Destroyer', 3),
-  createShip('Submarine', 3),
-  createShip('Patrol Boat', 2),
+  createShip(5, 'Carrier'),
+  createShip(4, 'Battleship'),
+  createShip(3, 'Destroyer'),
+  createShip(3, 'Submarine'),
+  createShip(2, 'Patrol Boat'),
 ];
 
 computerPlayerTwo.gameBoard.shipsOnBoard[0].location = [
